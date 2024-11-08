@@ -8,7 +8,7 @@ const PostComponent = () => {
 
 
   const postFunc = () => {
-    axios.post("http://localhost:8080/api", { data });
+    axios.post("http://localhost:8080/api",  data , {headers : {"Content-Type": "text/plain",}});
   };
 
   const UpdateValue = (e) => {

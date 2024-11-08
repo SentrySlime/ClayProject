@@ -25,9 +25,12 @@ public class ClayController {
 
   @PostMapping
   public ResponseEntity<String> postString(@RequestBody String body){
-
-    System.out.println("The string we got in was: " + body);
     service.applyModeration(body);
+    return ResponseEntity.ok(body);
+  }
+
+  @PostMapping("/new")
+  public ResponseEntity<String> postNewString(@RequestBody String body){
     return ResponseEntity.ok(body);
   }
 
