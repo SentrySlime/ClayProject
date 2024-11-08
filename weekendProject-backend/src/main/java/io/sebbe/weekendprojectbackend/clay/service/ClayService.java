@@ -1,13 +1,22 @@
 package io.sebbe.weekendprojectbackend.clay.service;
+import io.sebbe.weekendprojectbackend.clay.model.Clay;
+import io.sebbe.weekendprojectbackend.clay.model.ModerationRequest;
+import io.sebbe.weekendprojectbackend.clay.repo.ClayRepository;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpHeaders;
 
 @Service
 public class ClayService {
 
-  RestTemplate restTemplate;
 
-  public ClayService(RestTemplate restTemplate) {
+  RestTemplate restTemplate;
+  ClayRepository repository;
+
+  public ClayService(ClayRepository repository, RestTemplate restTemplate) {
+    this.repository = repository;
     this.restTemplate = restTemplate;
   }
 
@@ -15,11 +24,28 @@ public class ClayService {
   String testURL = "http://localhost:8080/api/new";
 
   public void applyModeration(String body){
+    HttpHeaders headers = new HttpHeaders();
 
-    String response = restTemplate.postForObject(testURL, body, String.class);
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    //headers.setBearerAuth(apiKey);
 
-    System.out.println("This is our response : " + response);
-    //This is were we apply the openAI API moderation
+    ModerationRequest moderationRequest = new ModerationRequest(body);
+    HttpEntity<ModerationRequest> entity = new HttpEntity<>(moderationRequest, headers);
+
+    // FIXME : commenting the openAI api call out until we add some credits
+
+    /* String response = restTemplate.postForObject(url, entity, String.class);
+    System.out.println("This is our response : \nl" + response); */
+
+    saveToRepo(body);
+
   }
 
+  public void saveToRepo(String body){
+    Clay clay = new Clay();
+
+    clay.setInput(body);
+
+    repository.save(clay);
+  }
 }

@@ -1,11 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 
-
-
 const PostComponent = () => {
   const [data, setData] = useState();
-
 
   const postFunc = () => {
     axios.post("http://localhost:8080/api",  data , {headers : {"Content-Type": "text/plain",}});
