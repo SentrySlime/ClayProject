@@ -3,6 +3,7 @@ import io.sebbe.weekendprojectbackend.clay.model.Clay;
 import io.sebbe.weekendprojectbackend.clay.model.ModerationRequest;
 import io.sebbe.weekendprojectbackend.clay.moderation.ModerationResponseDTO;
 import io.sebbe.weekendprojectbackend.clay.repo.ClayRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,8 @@ import org.springframework.http.HttpHeaders;
 @Service
 public class ClayService {
 
-
+  @Value("${api.key}")
+  private String apiKey;
 
   RestTemplate restTemplate;
   ClayRepository repository;
@@ -30,7 +32,7 @@ public class ClayService {
     HttpHeaders headers = new HttpHeaders();
 
     headers.setContentType(MediaType.APPLICATION_JSON);
-   // headers.setBearerAuth(apiKey);
+    headers.setBearerAuth(apiKey);
 
 
     ModerationRequest moderationRequest = new ModerationRequest(body.getInfo());
