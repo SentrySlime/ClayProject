@@ -30,7 +30,7 @@ public class ClayService {
     HttpHeaders headers = new HttpHeaders();
 
     headers.setContentType(MediaType.APPLICATION_JSON);
-    //headers.setBearerAuth(apiKey);
+   // headers.setBearerAuth(apiKey);
 
 
     ModerationRequest moderationRequest = new ModerationRequest(body.getInfo());
