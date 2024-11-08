@@ -1,11 +1,17 @@
 import axios from "axios";
 import { useState } from "react";
 
+const user = {
+    name: "John",
+    gender: "Male",
+    info: "I fucking hate you, and Want to cut myself, this is also hardcoded"
+  };
+
 const PostComponent = () => {
   const [data, setData] = useState();
 
   const postFunc = () => {
-    axios.post("http://localhost:8080/api",  data , {headers : {"Content-Type": "text/plain",}});
+    axios.post("http://localhost:8080/api",  user);
   };
 
   const UpdateValue = (e) => {
@@ -14,6 +20,7 @@ const PostComponent = () => {
 
   return (
     <div>
+      <form typeof="submit"></form>
       <input onChange={UpdateValue} value={data} />
       <button onClick={postFunc}>Post</button>
     </div>

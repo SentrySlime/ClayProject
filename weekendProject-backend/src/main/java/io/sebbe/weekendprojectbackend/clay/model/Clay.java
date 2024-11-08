@@ -12,21 +12,47 @@ public class Clay {
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
 
-  private String input;
+  private String name;
+
+  private String gender;
+
+  private String info;
+
+  public Clay() {
+  }
+
+  public Clay(String name, String gender, String info) {
+    this.name = name;
+    this.gender = gender;
+    this.info = info;
+  }
+
 
   public String getId() {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public String getName() {
+    return name;
   }
 
-  public String getInput() {
-    return input;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public void setInput(String input) {
-    this.input = input;
+  public String getGender() {
+    return gender;
+  }
+
+  public void setGender(String gender) {
+    this.gender = gender;
+  }
+
+  public String getInfo() {
+    return info;
+  }
+
+  public void setInfo(String info) {
+    this.info = info;
   }
 }
