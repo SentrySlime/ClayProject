@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Clay {
+public class AppUser {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -18,10 +18,10 @@ public class Clay {
 
   private String info;
 
-  public Clay() {
+  public AppUser() {
   }
 
-  public Clay(String name, String gender, String info) {
+  public AppUser(String name, String gender, String info) {
     this.name = name;
     this.gender = gender;
     this.info = info;

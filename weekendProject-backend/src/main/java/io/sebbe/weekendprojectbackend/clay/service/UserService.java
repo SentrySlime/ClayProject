@@ -1,5 +1,5 @@
 package io.sebbe.weekendprojectbackend.clay.service;
-import io.sebbe.weekendprojectbackend.clay.model.Clay;
+import io.sebbe.weekendprojectbackend.clay.model.AppUser;
 import io.sebbe.weekendprojectbackend.clay.model.ModerationRequest;
 import io.sebbe.weekendprojectbackend.clay.moderation.ModerationResponseDTO;
 import io.sebbe.weekendprojectbackend.clay.repo.ClayRepository;
@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpHeaders;
 
 @Service
-public class ClayService {
+public class UserService {
 
   @Value("${api.key}")
   private String apiKey;
@@ -19,7 +19,7 @@ public class ClayService {
   RestTemplate restTemplate;
   ClayRepository repository;
 
-  public ClayService(ClayRepository repository, RestTemplate restTemplate) {
+  public UserService(ClayRepository repository, RestTemplate restTemplate) {
     this.repository = repository;
     this.restTemplate = restTemplate;
   }
@@ -28,30 +28,29 @@ public class ClayService {
   String testURL = "http://localhost:8080/api/new";
 
 
-  public void applyModerationOnInfo(Clay body){
+  public ModerationResponseDTO applyModerationOnInfo(AppUser body){
     HttpHeaders headers = new HttpHeaders();
 
     headers.setContentType(MediaType.APPLICATION_JSON);
     headers.setBearerAuth(apiKey);
 
-
     ModerationRequest moderationRequest = new ModerationRequest(body.getInfo());
-
 
     HttpEntity<ModerationRequest> entity = new HttpEntity<>(moderationRequest, headers);
 
     // FIXME : commenting the openAI api call out until we add some credits
 
-    System.out.println("Moderation Request Payload: " + moderationRequest);
+    //System.out.println("Moderation Request Payload: " + moderationRequest);
     ModerationResponseDTO response = restTemplate.postForObject(url, entity, ModerationResponseDTO.class);
-    System.out.println("This is our response from the api : \nl" + response);
-
+    //System.out.println("This is our response from the api : \nl" + response);
 
     saveToRepo(body);
 
+    return response;
+
   }
 
-  public void saveToRepo(Clay body){
+  public void saveToRepo(AppUser body){
     // FIXME : Temporarily disabling the DB access
     repository.save(body);
   }
