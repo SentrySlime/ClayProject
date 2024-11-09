@@ -4,7 +4,7 @@ import { useState } from "react";
 const user = {
     name: "John",
     gender: "Male",
-    info: "I fucking hate you, and Want to hurt myself, this is also hardcoded"
+    info: "I am going to hurt myself tonight. I plan to cut myself because I can’t handle this anymore. I want to take my own life; I don’t see a reason to live."
   };
 
 const PostComponent = () => {

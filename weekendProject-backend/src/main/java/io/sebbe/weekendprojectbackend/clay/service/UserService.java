@@ -1,57 +1,92 @@
 package io.sebbe.weekendprojectbackend.clay.service;
 import io.sebbe.weekendprojectbackend.clay.model.AppUser;
+import io.sebbe.weekendprojectbackend.clay.model.InfoScoring;
 import io.sebbe.weekendprojectbackend.clay.model.ModerationRequest;
+import io.sebbe.weekendprojectbackend.clay.moderation.CategoryScoresDTO;
 import io.sebbe.weekendprojectbackend.clay.moderation.ModerationResponseDTO;
-import io.sebbe.weekendprojectbackend.clay.repo.ClayRepository;
+import io.sebbe.weekendprojectbackend.clay.repo.AppUserRepository;
+import io.sebbe.weekendprojectbackend.clay.repo.InfoScoringRepository;
+import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpHeaders;
+
+import javax.swing.plaf.synth.Region;
 
 @Service
 public class UserService {
 
   @Value("${api.key}")
   private String apiKey;
+  String url = "https://api.openai.com/v1/moderations";
 
   RestTemplate restTemplate;
-  ClayRepository repository;
 
-  public UserService(ClayRepository repository, RestTemplate restTemplate) {
-    this.repository = repository;
+  AppUserRepository userRepo;
+  InfoScoringRepository infoRepo;
+
+  public UserService(AppUserRepository userRepo, InfoScoringRepository infoRepo, RestTemplate restTemplate) {
+    this.userRepo = userRepo;
+    this.infoRepo = infoRepo;
     this.restTemplate = restTemplate;
   }
 
-  String url = "https://api.openai.com/v1/moderations";
-  String testURL = "http://localhost:8080/api/new";
-
-
   public ModerationResponseDTO applyModerationOnInfo(AppUser body){
+
     HttpHeaders headers = new HttpHeaders();
 
     headers.setContentType(MediaType.APPLICATION_JSON);
     headers.setBearerAuth(apiKey);
 
     ModerationRequest moderationRequest = new ModerationRequest(body.getInfo());
-
     HttpEntity<ModerationRequest> entity = new HttpEntity<>(moderationRequest, headers);
 
-    // FIXME : commenting the openAI api call out until we add some credits
-
-    //System.out.println("Moderation Request Payload: " + moderationRequest);
     ModerationResponseDTO response = restTemplate.postForObject(url, entity, ModerationResponseDTO.class);
-    //System.out.println("This is our response from the api : \nl" + response);
 
-    saveToRepo(body);
+    restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
+    InfoScoring infoScoring = createNewInfoScoring(response, body);
+
+    saveUser(body);
+    saveInfo(infoScoring);
     return response;
 
   }
 
-  public void saveToRepo(AppUser body){
+  public void saveUser(AppUser body){
     // FIXME : Temporarily disabling the DB access
-    repository.save(body);
+    userRepo.save(body);
+  }
+
+  public void saveInfo(InfoScoring infoScoring){
+    infoRepo.save(infoScoring);
+  }
+
+  private InfoScoring createNewInfoScoring(ModerationResponseDTO response, AppUser user){
+    CategoryScoresDTO scoresDTO = response.results().get(0).category_scores();
+
+    InfoScoring infoScoring = new InfoScoring();
+
+    //region <setting infoScoring values>
+    infoScoring.setAppUser(user);
+    infoScoring.setSexual(scoresDTO.sexual());
+    infoScoring.setHate(scoresDTO.hate());
+    infoScoring.setHarassment(scoresDTO.harassment());
+    infoScoring.setSelfHarm(scoresDTO.selfHarm());
+    infoScoring.setSexualMinors(scoresDTO.sexualMinors());
+    infoScoring.setHateThreatening(scoresDTO.hateThreatening());
+    infoScoring.setViolenceGraphic(scoresDTO.violenceGraphic());
+    infoScoring.setSelfHarmIntent(scoresDTO.selfHarmIntent());
+    infoScoring.setSelfHarmInstructions(scoresDTO.selfHarmInstructions());
+    infoScoring.setHarassmentThreatening(scoresDTO.harassmentThreatening());
+    infoScoring.setViolence(scoresDTO.violence());
+
+    //endregion
+
+    return infoScoring;
   }
 }

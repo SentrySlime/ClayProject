@@ -33,8 +33,6 @@ public class UserController {
     AppUser user = new AppUser(body.name(), body.gender(), body.info());
     ModerationResponseDTO responseDTO = userService.applyModerationOnInfo(user);
 
-    responseDTO.results().get(0).flagged();
-
     return ResponseEntity.ok(responseDTO.results().get(0).flagged());
   }
 

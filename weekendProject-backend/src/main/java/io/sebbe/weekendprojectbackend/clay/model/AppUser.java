@@ -1,9 +1,6 @@
 package io.sebbe.weekendprojectbackend.clay.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class AppUser {
@@ -17,6 +14,9 @@ public class AppUser {
   private String gender;
 
   private String info;
+
+  @OneToOne
+  private InfoScoring infoScoring;
 
   public AppUser() {
   }
