@@ -9,7 +9,8 @@ public class InfoScoring {
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
 
-  @OneToOne
+  @OneToOne(mappedBy = "infoScoring")
+  @JoinColumn(name = "app_user_id")
   private AppUser appUser;
 
   public InfoScoring() {

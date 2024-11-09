@@ -12,6 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpHeaders;
 
@@ -35,7 +36,13 @@ public class UserService {
     this.restTemplate = restTemplate;
   }
 
-  public ModerationResponseDTO applyModerationOnInfo(AppUser body){
+  public AppUser getAppUser (String id) {
+    return userRepo.findById(id)
+            .orElseThrow();
+  }
+
+  @Transactional
+  public void applyModerationOnInfo(AppUser body){
 
     HttpHeaders headers = new HttpHeaders();
 
@@ -48,13 +55,12 @@ public class UserService {
     ModerationResponseDTO response = restTemplate.postForObject(url, entity, ModerationResponseDTO.class);
 
     restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
     InfoScoring infoScoring = createNewInfoScoring(response, body);
 
-    saveUser(body);
-    saveInfo(infoScoring);
-    return response;
+    infoScoring.setAppUser(body);
+    body.setInfoScoring(infoScoring);
 
+    saveUser(body);
   }
 
   public void saveUser(AppUser body){

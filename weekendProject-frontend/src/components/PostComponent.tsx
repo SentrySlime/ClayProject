@@ -18,8 +18,6 @@ const PostComponent = () => {
     }).catch((error) => {
         console.error("Error posting data", error);
     });
-
-
   };
 
   const UpdateValue = (e) => {

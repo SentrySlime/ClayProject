@@ -1,20 +1,24 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import GetComponent from './components/GetComponent'
-import PostComponent from './components/PostComponent';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import GetComponent from "./components/GetComponent";
+import PostComponent from "./components/PostComponent";
+import User from "./components/User";
 
 const queryClient = new QueryClient();
 
 function App() {
-  
-
   return (
-    <QueryClientProvider client={queryClient} >
-      <GetComponent/>
+    <QueryClientProvider client={queryClient}>
+      <div>
+        <GetComponent />
+      </div>
 
-      <PostComponent/>
+      <PostComponent />
+
+      <div>
+        <User/>
+      </div>
     </QueryClientProvider>
-
-  )
+  );
 }
 
-export default App
+export default App;

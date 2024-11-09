@@ -15,7 +15,8 @@ public class AppUser {
 
   private String info;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "info_scoring_id")
   private InfoScoring infoScoring;
 
   public AppUser() {
@@ -54,5 +55,13 @@ public class AppUser {
 
   public void setInfo(String info) {
     this.info = info;
+  }
+
+  public InfoScoring getInfoScoring() {
+    return infoScoring;
+  }
+
+  public void setInfoScoring(InfoScoring infoScoring) {
+    this.infoScoring = infoScoring;
   }
 }

@@ -3,6 +3,7 @@ package io.sebbe.weekendprojectbackend.clay.controller;
 
 import io.sebbe.weekendprojectbackend.clay.model.AppUser;
 import io.sebbe.weekendprojectbackend.clay.model.UserRequestDTO;
+import io.sebbe.weekendprojectbackend.clay.model.UserResponseDTO;
 import io.sebbe.weekendprojectbackend.clay.moderation.ModerationResponseDTO;
 import io.sebbe.weekendprojectbackend.clay.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +23,23 @@ public class UserController {
     this.userService = userService;
   }
 
-  @GetMapping
-  public ResponseEntity<String> getString(){
-    return ResponseEntity.ok(responseString);
+  @GetMapping("/{id}")
+  public ResponseEntity<UserResponseDTO> getUserById(@PathVariable String id){
+
+    AppUser appUser = userService.getAppUser(id);
+    UserResponseDTO response = new UserResponseDTO(appUser.getId(), appUser.getName(), appUser.getGender());
+
+    return ResponseEntity.ok(response);
   }
 
   @PostMapping
-  public ResponseEntity<Boolean> postString(@RequestBody UserRequestDTO body){
+  public ResponseEntity<UserResponseDTO> postString(@RequestBody UserRequestDTO body){
 
     AppUser user = new AppUser(body.name(), body.gender(), body.info());
-    ModerationResponseDTO responseDTO = userService.applyModerationOnInfo(user);
+    userService.applyModerationOnInfo(user);
+    UserResponseDTO response = new UserResponseDTO(user.getId(), user.getName(), user.getGender());
 
-    return ResponseEntity.ok(responseDTO.results().get(0).flagged());
+    return ResponseEntity.ok(response);
   }
 
   @PostMapping("/new")
