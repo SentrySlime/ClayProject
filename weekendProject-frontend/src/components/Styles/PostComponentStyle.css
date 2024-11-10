@@ -1,0 +1,35 @@
+.submitForm {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; 
+}
+
+.submitForm div {
+  display: flex;
+  align-items: center;
+}
+
+.submitForm label {
+  width: 80px; 
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.submitForm input {
+  padding: 5px;
+  flex-grow: 1;
+}
+
+button {
+  width: 150px ;
+  height: 30px;
+  margin-left: 20px;
+  background-color: #28a745;
+  border-radius: 15px;
+  border: none
+}
+
+button:hover {
+  background-color: #218838;
+}

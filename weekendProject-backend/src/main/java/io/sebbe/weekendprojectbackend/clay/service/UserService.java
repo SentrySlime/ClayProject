@@ -6,7 +6,6 @@ import io.sebbe.weekendprojectbackend.clay.moderation.CategoryScoresDTO;
 import io.sebbe.weekendprojectbackend.clay.moderation.ModerationResponseDTO;
 import io.sebbe.weekendprojectbackend.clay.repo.AppUserRepository;
 import io.sebbe.weekendprojectbackend.clay.repo.InfoScoringRepository;
-import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpHeaders;
 
-import javax.swing.plaf.synth.Region;
 import java.util.List;
 
 @Service

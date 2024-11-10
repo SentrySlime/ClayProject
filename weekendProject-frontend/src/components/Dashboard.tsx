@@ -7,8 +7,8 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Statistics userId={selectedUserId} />
       <Gallery onSelectUser={setSelectedUserId} />
+      <Statistics userId={selectedUserId} />
     </div>
   );
 };

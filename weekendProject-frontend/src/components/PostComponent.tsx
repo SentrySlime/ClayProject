@@ -1,13 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import './Styles/PostComponentStyle.css';
 
 const PostComponent = () => {
   const queryClient = useQueryClient();
 
-  const styles = {
-    border: "1px solid rgba(0, 0, 0, 0.5)",
-  };
+  
 
   const [user, setUser] = useState({
     name: "",
@@ -35,9 +34,9 @@ const PostComponent = () => {
   };
 
   return (
-    <div>
+    <>
       <h1>Submit Form</h1>
-      <div style={styles}>
+      <div className="submitForm">
         <form typeof="submit"></form>
 
         <div>
@@ -63,7 +62,7 @@ const PostComponent = () => {
 
         <button onClick={postFunc}>Post</button>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import User from "./User";
+import './Styles/GalleryStyle.css';
 
 const fetchGalleryData = async () => {
   const response = await axios.get("http://localhost:8080/api");
@@ -17,14 +18,13 @@ const Gallery = ({ onSelectUser }) => {
   if (isError) return <div>Error: {error.message}</div>;
 
   return (
-    <div>
-      <h2>User Gallery</h2>
+    <div className="galleryContainer">
       {data && data.length > 0 ? (
         data.map((user) => (
           <User key={user.id} user={user} onSelectUser={onSelectUser} />
         ))
       ) : (
-        <div>No user data available</div>
+        <div className="noDataMessage" >No user data available</div>
       )}
     </div>
   );
