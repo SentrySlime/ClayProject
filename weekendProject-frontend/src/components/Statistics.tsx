@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const fetchFunc = async () => {
+const fetchStatistics = async () => {
   const response = await axios.get(
     "http://localhost:8080/api/data/969f4b7c-5758-42b7-bdae-9272891cb8b0"
   );
@@ -11,8 +11,8 @@ const fetchFunc = async () => {
 
 const Statistics = () => {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["myData"],
-    queryFn: fetchFunc,
+    queryKey: ["statisticsData"],  // Unique query key for Statistics component
+    queryFn: fetchStatistics,
   });
 
   if (isLoading) return <div>Is Loading...</div>;

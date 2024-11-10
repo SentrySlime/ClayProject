@@ -39,6 +39,8 @@ public class UserController {
             .map(appUser -> new UserResponseDTO(appUser.getId(), appUser.getName(), appUser.getGender()))
             .collect(Collectors.toList());
 
+    System.out.println("We are sending back the responselist : " + responseList);
+
     return ResponseEntity.ok(responseList);
   }
 

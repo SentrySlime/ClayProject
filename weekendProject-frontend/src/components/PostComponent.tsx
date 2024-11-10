@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const PostComponent = () => {
-  
-    const styles = {
+  const queryClient = useQueryClient();
+
+  const styles = {
     border: "1px solid rgba(0, 0, 0, 0.5)",
   };
 
@@ -12,8 +14,6 @@ const PostComponent = () => {
     gender: "",
     info: "",
   });
-
-  const [response, setResponse] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,7 +27,8 @@ const PostComponent = () => {
     axios
       .post("http://localhost:8080/api", user)
       .then((res) => {
-        setResponse(res.data);
+        // Invalidate only the Gallery query to avoid affecting other components
+        queryClient.invalidateQueries(["galleryData"]);
       })
       .catch((error) => {
         console.error("Error posting data", error);

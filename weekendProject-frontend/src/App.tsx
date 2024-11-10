@@ -8,14 +8,17 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <div>
+        <Statistics />
+      </div>
 
+      <div>
+        <PostComponent />
+      </div>
 
-      <Statistics/>
-
-      <PostComponent />
-
-      <Gallery/>
-
+      <div>
+        <Gallery />
+      </div>
     </QueryClientProvider>
   );
 }
