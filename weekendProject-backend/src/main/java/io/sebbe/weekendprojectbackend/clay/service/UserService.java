@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpHeaders;
 
 import javax.swing.plaf.synth.Region;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -39,6 +40,10 @@ public class UserService {
   public AppUser getAppUser (String id) {
     return userRepo.findById(id)
             .orElseThrow();
+  }
+
+  public List<AppUser> getAllAppUsers(){
+    return userRepo.findAll();
   }
 
   @Transactional

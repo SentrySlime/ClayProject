@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query"; // Import useQueryClient
 
 const PostComponent = () => {
-  
-    const styles = {
+  const queryClient = useQueryClient(); // Initialize query client
+
+  const styles = {
     border: "1px solid rgba(0, 0, 0, 0.5)",
   };
 
@@ -28,6 +30,7 @@ const PostComponent = () => {
       .post("http://localhost:8080/api", user)
       .then((res) => {
         setResponse(res.data);
+        queryClient.invalidateQueries(["myData"]); // Invalidate query after successful post
       })
       .catch((error) => {
         console.error("Error posting data", error);
@@ -38,8 +41,6 @@ const PostComponent = () => {
     <div>
       <h1>Submit Form</h1>
       <div style={styles}>
-        <form typeof="submit"></form>
-
         <div>
           <label>
             Name:

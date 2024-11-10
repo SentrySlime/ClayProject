@@ -3,8 +3,9 @@ import axios from "axios";
 
 const fetchFunc = async () => {
   const response = await axios.get(
-    "http://localhost:8080/api/42dba3c2-3858-4da2-a442-c2860f050f77"
+    "http://localhost:8080/api"
   );
+
   return response.data;
 };
 
@@ -20,9 +21,7 @@ const GetComponent = () => {
   return (
     <div>
       <button onClick={fetchFunc}>Get</button>
-      <p>{data.id}</p>
-      <p>{data.name}</p>
-      <p>{data.gender}</p>
+      
     </div>
   );
 };

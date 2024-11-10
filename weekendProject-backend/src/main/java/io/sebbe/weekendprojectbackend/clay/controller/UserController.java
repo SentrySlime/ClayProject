@@ -9,6 +9,9 @@ import io.sebbe.weekendprojectbackend.clay.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:5173/")
@@ -31,6 +34,18 @@ public class UserController {
 
     return ResponseEntity.ok(response);
   }
+
+  @GetMapping
+  public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+    List<AppUser> appUsers = userService.getAllAppUsers();
+    List<UserResponseDTO> responseList = appUsers.stream()
+            .map(appUser -> new UserResponseDTO(appUser.getId(), appUser.getName(), appUser.getGender()))
+            .collect(Collectors.toList());
+
+    return ResponseEntity.ok(responseList);
+  }
+
+
 
   @PostMapping
   public ResponseEntity<UserResponseDTO> postString(@RequestBody UserRequestDTO body){
