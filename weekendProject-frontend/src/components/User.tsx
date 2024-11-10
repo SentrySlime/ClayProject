@@ -1,5 +1,6 @@
 const User = () => {
   const userInfo = {
+    id: "id",
     name: "John",
     gender: "Male",
     info: "I am going to hurt myself tonight. I plan to cut myself because I can’t handle this anymore. I want to take my own life; I don’t see a reason to live.",
@@ -7,9 +8,7 @@ const User = () => {
 
   return (
     <div>
-      <div>{userInfo.name}</div>
-      <div>{userInfo.gender}</div>
-      <div>{userInfo.info}</div>
+      <div>{userInfo.name} : {userInfo.gender} </div>
     </div>
   );
 };

@@ -1,35 +1,68 @@
 import axios from "axios";
 import { useState } from "react";
 
-const user = {
-    name: "John",
-    gender: "Male",
-    info: "I am going to hurt myself tonight. I plan to cut myself because I can’t handle this anymore. I want to take my own life; I don’t see a reason to live."
+const PostComponent = () => {
+  
+    const styles = {
+    border: "1px solid rgba(0, 0, 0, 0.5)",
   };
 
-const PostComponent = () => {
-  const [data, setData] = useState();
+  const [user, setUser] = useState({
+    name: "",
+    gender: "",
+    info: "",
+  });
+
   const [response, setResponse] = useState(null);
 
-  const postFunc = () => {
-    axios.post("http://localhost:8080/api",  user)
-    .then((res) => {
-        setResponse(res.data);
-    }).catch((error) => {
-        console.error("Error posting data", error);
-    });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
   };
 
-  const UpdateValue = (e) => {
-    setData(e.target.value);
+  const postFunc = () => {
+    axios
+      .post("http://localhost:8080/api", user)
+      .then((res) => {
+        setResponse(res.data);
+      })
+      .catch((error) => {
+        console.error("Error posting data", error);
+      });
   };
 
   return (
     <div>
-      <form typeof="submit"></form>
-      <input onChange={UpdateValue} value={data} />
-      <button onClick={postFunc}>Post</button>
-      <div> This is the response {response}</div>
+      <h1>Submit Form</h1>
+      <div style={styles}>
+        <form typeof="submit"></form>
+
+        <div>
+          <label>
+            Name:
+            <input name="name" value={user.name} onChange={handleChange} />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Gender:
+            <input name="gender" value={user.gender} onChange={handleChange} />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Info:
+            <input name="info" value={user.info} onChange={handleChange} />
+          </label>
+        </div>
+
+        <button onClick={postFunc}>Post</button>
+      </div>
     </div>
   );
 };
