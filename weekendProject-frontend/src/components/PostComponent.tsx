@@ -16,6 +16,9 @@ const PostComponent: React.FC = () => {
     gender: "",
     info: "",
   });
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -23,16 +26,37 @@ const PostComponent: React.FC = () => {
       ...prevUser,
       [name]: value,
     }));
+    setError(null);
   };
 
   const postFunc = () => {
+    if (!user.name || !user.gender || !user.info) {
+      setError("All fields are required.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+
     axios
       .post("http://localhost:8080/api", user)
       .then(() => {
         queryClient.invalidateQueries(["galleryData"]);
+        setSuccess(true);
+        setUser({ name: "", gender: "", info: "" });
       })
       .catch((error) => {
-        console.error("Error posting data", error);
+        if (error.response) {
+          setError(`Server error: ${error.response.data.message || "Unknown error"}`);
+        } else if (error.request) {
+          setError("Network error: Please check your connection.");
+        } else {
+          setError(`Error: ${error.message}`);
+        }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -50,11 +74,7 @@ const PostComponent: React.FC = () => {
           <div>
             <label>
               Gender:
-              <input
-                name="gender"
-                value={user.gender}
-                onChange={handleChange}
-              />
+              <input name="gender" value={user.gender} onChange={handleChange} />
             </label>
           </div>
           <div>
@@ -63,8 +83,15 @@ const PostComponent: React.FC = () => {
               <input name="info" value={user.info} onChange={handleChange} />
             </label>
           </div>
-          <button className="viewStats" type="button" onClick={postFunc}>
-            Post
+          {error && <p className="error">{error}</p>}
+          {success && <p className="success">Form submitted successfully!</p>}
+          <button
+            className="viewStats"
+            type="button"
+            onClick={postFunc}
+            disabled={loading}
+          >
+            {loading ? "Submitting..." : "Post"}
           </button>
         </form>
       </div>

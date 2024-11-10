@@ -89,3 +89,42 @@ This is a rough time estimate of how long the project could/should take.
 
 ---
 ### Total Estimated Time: 16 hours // BUT About a third of this plan is already finished, before the start of the weekend
+
+# Project Setup Guide
+
+### Prerequisites
+
+### Setup Instructions
+
+#### 1. Backend Setup
+   - Open the `UserService` file and insert your API key directly:
+     ```java
+     String apiKey = "YOUR_API_KEY";
+     ```
+   - Alternatively, create a new `config.properties` file in the backend resource directory and add the following line:
+     ```properties
+     api.key=YOUR_API_KEY
+     ```
+
+#### 2. Run Backend
+   - Run backend
+
+#### 3. Frontend Setup
+   - Navigate to the frontend directory `weekendProject-frontend` (root) and install dependencies:
+     ```bash
+     npm install
+     ```
+
+#### 4. Run the Application
+   - Start the frontend server:
+     ```bash
+     npm run dev
+     ```
+
+### Access the Application
+- **Frontend**: Open [http://localhost:5173](http://localhost:5173) in your browser.
+- **Backend**: Access the backend API at [http://localhost:8080](http://localhost:8080).
+
+---
+
+This setup guide should help you get the project up and running smoothly!

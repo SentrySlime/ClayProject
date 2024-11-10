@@ -5,7 +5,6 @@ import io.sebbe.weekendprojectbackend.clay.model.ModerationRequest;
 import io.sebbe.weekendprojectbackend.clay.moderation.CategoryScoresDTO;
 import io.sebbe.weekendprojectbackend.clay.moderation.ModerationResponseDTO;
 import io.sebbe.weekendprojectbackend.clay.repo.AppUserRepository;
-import io.sebbe.weekendprojectbackend.clay.repo.InfoScoringRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
@@ -27,11 +26,9 @@ public class UserService {
   RestTemplate restTemplate;
 
   AppUserRepository userRepo;
-  InfoScoringRepository infoRepo;
 
-  public UserService(AppUserRepository userRepo, InfoScoringRepository infoRepo, RestTemplate restTemplate) {
+  public UserService(AppUserRepository userRepo, RestTemplate restTemplate) {
     this.userRepo = userRepo;
-    this.infoRepo = infoRepo;
     this.restTemplate = restTemplate;
   }
 
@@ -78,9 +75,7 @@ public class UserService {
     userRepo.save(body);
   }
 
-  public void saveInfo(InfoScoring infoScoring){
-    infoRepo.save(infoScoring);
-  }
+
 
   private InfoScoring createNewInfoScoring(ModerationResponseDTO response, AppUser user){
     CategoryScoresDTO scoresDTO = response.results().get(0).category_scores();
