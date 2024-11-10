@@ -1,14 +1,16 @@
-const User = ({ user }) => {
-    if (!user) {
-      return <div>User data is unavailable</div>;
-    }
+const User = ({ user, onSelectUser }) => {
+    const handleSelectUser = () => {
+      onSelectUser(user.id);
+    };
+  
+    if (!user) return <div>User data is unavailable</div>;
   
     return (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
         <div>
           This is user: {user.name} : {user.gender}
         </div>
-        <button>Delete</button>
+        <button onClick={handleSelectUser}>View Statistics</button>
       </div>
     );
   };

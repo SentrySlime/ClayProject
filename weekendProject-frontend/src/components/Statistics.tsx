@@ -1,21 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const fetchStatistics = async () => {
+const fetchStatistics = async (userId) => {
   const response = await axios.get(
-    "http://localhost:8080/api/data/969f4b7c-5758-42b7-bdae-9272891cb8b0"
+    `http://localhost:8080/api/data/${userId}`
   );
-  console.log(response.data);
   return response.data;
 };
 
-const Statistics = () => {
+const Statistics = ({ userId }) => {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["statisticsData"],  // Unique query key for Statistics component
-    queryFn: fetchStatistics,
+    queryKey: ["statisticsData", userId],
+    queryFn: () => fetchStatistics(userId),
+    enabled: !!userId, 
   });
 
-  if (isLoading) return <div>Is Loading...</div>;
+  if (!userId) return <div>Select a user to view statistics</div>;
+
+  if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: {error.message}</div>;
 
   return (

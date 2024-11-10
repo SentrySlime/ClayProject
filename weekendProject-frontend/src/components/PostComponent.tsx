@@ -27,7 +27,6 @@ const PostComponent = () => {
     axios
       .post("http://localhost:8080/api", user)
       .then((res) => {
-        // Invalidate only the Gallery query to avoid affecting other components
         queryClient.invalidateQueries(["galleryData"]);
       })
       .catch((error) => {
