@@ -1,6 +1,11 @@
-import './Styles/UserStyle.css';
+import "./Styles/UserStyle.css";
 
-const User = ({ user, onSelectUser }) => {
+interface UserProps {
+  user: { id: string; name: string; gender: string };
+  onSelectUser: (id: string) => void;
+}
+
+const User: React.FC<UserProps> = ({ user, onSelectUser }) => {
   const handleSelectUser = () => {
     onSelectUser(user.id);
   };
@@ -10,9 +15,11 @@ const User = ({ user, onSelectUser }) => {
   return (
     <div className="userContainer">
       <div className="userInfo">
-        This is user: {user.name} : {user.gender}
+        {user.name} : {user.gender}
       </div>
-      <button onClick={handleSelectUser} className="viewButton">View Statistics</button>
+      <button onClick={handleSelectUser} className="viewButton">
+        View Statistics
+      </button>
     </div>
   );
 };

@@ -8,14 +8,18 @@ import {
   Tooltip,
   Legend,
   CartesianGrid,
-} from "recharts"; 
+} from "recharts";
 
-const fetchStatistics = async (userId) => {
+interface StatisticsProps {
+  userId: string;
+}
+
+const fetchStatistics = async (userId: string) => {
   const response = await axios.get(`http://localhost:8080/api/data/${userId}`);
   return response.data;
 };
 
-const Statistics = ({ userId }) => {
+const Statistics: React.FC<StatisticsProps> = ({ userId }) => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["statisticsData", userId],
     queryFn: () => fetchStatistics(userId),
@@ -28,7 +32,7 @@ const Statistics = ({ userId }) => {
 
   const barData = Object.entries(data).map(([key, value]) => ({
     name: key,
-    value: typeof value === "number" ? value : 0, 
+    value: typeof value === "number" ? value : 0,
   }));
 
   return (
