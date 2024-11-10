@@ -46,6 +46,13 @@ public class UserService {
     return userRepo.findAll();
   }
 
+  public InfoScoring getDataById(String id){
+      AppUser appUser = userRepo.findById(id).orElseThrow();
+      return appUser.getInfoScoring();
+  }
+
+
+
   @Transactional
   public void applyModerationOnInfo(AppUser body){
 

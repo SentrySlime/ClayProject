@@ -1,10 +1,7 @@
 package io.sebbe.weekendprojectbackend.clay.controller;
 
 
-import io.sebbe.weekendprojectbackend.clay.model.AppUser;
-import io.sebbe.weekendprojectbackend.clay.model.UserRequestDTO;
-import io.sebbe.weekendprojectbackend.clay.model.UserResponseDTO;
-import io.sebbe.weekendprojectbackend.clay.moderation.ModerationResponseDTO;
+import io.sebbe.weekendprojectbackend.clay.model.*;
 import io.sebbe.weekendprojectbackend.clay.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +42,26 @@ public class UserController {
     return ResponseEntity.ok(responseList);
   }
 
+  @GetMapping("/data/{id}")
+  public ResponseEntity<InfoScoringResponseDTO> getDataById (@PathVariable String id) {
+      InfoScoring infoScoring = userService.getDataById(id);
 
+    InfoScoringResponseDTO responseDTO = new InfoScoringResponseDTO(
+            infoScoring.getSexual(),
+            infoScoring.getHate(),
+            infoScoring.getHarassment(),
+            infoScoring.getSelfHarm(),
+            infoScoring.getSexualMinors(),
+            infoScoring.getHateThreatening(),
+            infoScoring.getViolenceGraphic(),
+            infoScoring.getSelfHarmIntent(),
+            infoScoring.getSelfHarmInstructions(),
+            infoScoring.getHarassmentThreatening(),
+            infoScoring.getViolence()
+    );
+
+      return ResponseEntity.ok(responseDTO);
+  }
 
   @PostMapping
   public ResponseEntity<UserResponseDTO> postString(@RequestBody UserRequestDTO body){

@@ -8,7 +8,7 @@ const User = ({ user }) => {
         <div>
           This is user: {user.name} : {user.gender}
         </div>
-        <button  >Delete</button>
+        <button>Delete</button>
       </div>
     );
   };
