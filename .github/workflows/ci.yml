@@ -32,18 +32,18 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('frontend/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('weekendProject-frontend/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.node-version }}-
 
-      # Step 4: Navigate to the frontend directory and install dependencies
+      # Step 4: Navigate to the weekendProject-frontend directory and install dependencies
       - name: Install dependencies
-        working-directory: frontend
+        working-directory: weekendProject-frontend
         run: npm install
 
-      # Step 5: Run tests with Vitest in the frontend directory
+      # Step 5: Run tests with Vitest in the weekendProject-frontend directory
       - name: Run tests
-        working-directory: frontend
+        working-directory: weekendProject-frontend
         env:
           CI: true
         run: npm test
