@@ -1,4 +1,4 @@
-name: CI
+name: Frontend CI
 
 on:
   push:
@@ -9,12 +9,12 @@ on:
       - main
 
 jobs:
-  test:
+  frontend-test:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [18.x]  # You can specify other versions if needed
+        node-version: [18.x]
 
     steps:
       # Step 1: Check out the code from the repository
@@ -32,16 +32,18 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('frontend/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.node-version }}-
 
-      # Step 4: Install dependencies
+      # Step 4: Navigate to the frontend directory and install dependencies
       - name: Install dependencies
+        working-directory: frontend
         run: npm install
 
-      # Step 5: Run tests with Vitest
+      # Step 5: Run tests with Vitest in the frontend directory
       - name: Run tests
+        working-directory: frontend
         env:
           CI: true
         run: npm test
